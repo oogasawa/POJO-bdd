@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.laddercode</groupId>
-  <artifactId>bdd</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>POJO-bdd</artifactId>
+  <version>1.0.0</version>
 
   <name>POJO-bdd</name>
   <!-- FIXME change it to the project's website -->
@@ -19,6 +19,14 @@
   </properties>
 
   <dependencies>
+
+    <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
+    <!-- <dependency> -->
+    <!--   <groupId>com.vladsch.flexmark</groupId> -->
+    <!--   <artifactId>flexmark-all</artifactId> -->
+    <!--   <version>0.64.0</version> -->
+    <!-- </dependency> -->
+
   </dependencies>
 
   <build>

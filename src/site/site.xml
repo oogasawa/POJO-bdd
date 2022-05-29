@@ -15,17 +15,18 @@
 
   <body>
 
-    <menu name="Maven 2.0">
-      <item name="Introduction" href="index.html"/>
-      <item name="Download" href="download.html"/>
-      <item name="Release Notes" href="release-notes.html" />
-      <item name="General Information" href="about.html"/>
-      <item name="For Maven 1.x Users" href="maven1.html"/>
-      <item name="Road Map" href="roadmap.html" />
+    <menu name="User's Guide">
+      <item name="Introduction" href="users_manual/Introduction_220521_oo01/doc.html"/>
+      <item name="What is BDD?" href="users_manual/BDD_220521_oo01/doc.html"/>
+      <item name="UseCases" href="users_manual/UseCases_220521_oo01/doc.html"/>
     </menu>
 
   <menu name="API docs">
       <item name="JavaDoc" href="apidocs/index.html" />
+  </menu>
+  <menu name="BDD test results">
+    <item name="BddUtil_spec" href="pojobdd/BddUtil_spec.html" />
+    <item name="MdToArray_spec" href="pojobdd/MdToArray_spec.html" />
   </menu>
 
     <menu ref="reports"/>

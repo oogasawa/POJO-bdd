@@ -1,20 +1,11 @@
 package net.laddercode.pojobdd;
 
-import static org.junit.Assert.assertTrue;
+public class AppTest {
 
-import org.junit.Test;
+    public void testAll() {
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-{
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+        assert BddUtilSpec.exec();
+        assert MdToArraySpec.exec();
     }
+
 }
