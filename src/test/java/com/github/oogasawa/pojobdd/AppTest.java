@@ -1,11 +1,11 @@
-package net.laddercode.pojobdd;
+package com.github.oogasawa.pojobdd;
 
 public class AppTest {
 
     public void testAll() {
 
         assert BddUtilSpec.exec();
-        assert MdToArraySpec.exec();
+
     }
 
 }

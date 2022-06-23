@@ -1,4 +1,4 @@
-package net.laddercode.pojobdd;
+package com.github.oogasawa.pojobdd;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,6 +19,7 @@ public class BddUtilSpec {
             results.add(allTrueSpec01(out));
             results.add(allTrueSpec02(out));
             // results.add(convertRecursivelySpec(out));
+            results.add(readSnippetSpec(out));
 
             out.flush();
             return BddUtil.allTrue(results);
@@ -141,6 +142,66 @@ public class BddUtilSpec {
         return result;
 
     }
+
+
+
+    public static boolean readSnippetSpec(PrintStream out) {
+
+        // Description
+        String description = """
+
+            ## Read snippets from within test codes.
+
+            ### Example
+
+            `BddUtil.readSnippet(javaFilePathStr, methodName)`
+             method locates the java source file
+            using a relative path under the current directory
+            and extracts a snippet from the file.
+
+            The snippets are surrounded by `%begin snippet : ... %end snippet` as follows.
+
+            The string `your_method_name` does not necessarily have to be a method name, but can be any string.
+
+            ```
+            // %begin snippet : your_method_name
+            {{snippet}}
+            // %end snippet : your_method_name
+            ```
+
+            The execution result is as follows.
+
+            Leading and trailing blank lines are stripped.
+
+            """;
+
+
+        // Reality
+        // %begin snippet : readSnippetSpec
+
+        String answer = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/BddUtilSpec.java", "readSnippetSpec");
+
+        // %end snippet : readSnippetSpec
+
+        description = description.replace("{{snippet}}", answer);
+        out.println(description);
+
+
+        // Expectation
+        String expectation = """
+            String answer = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/BddUtilSpec.java", "readSnippetSpec");
+            """;
+
+        // Check the answer.
+        boolean result = BddUtil.assertTrue(out, expectation, answer);
+        assert result;
+        return result;
+
+    }
+
+
+
+
 
 
     // public static boolean convertRecursivelySpec(PrintStream out) {

@@ -56,11 +56,25 @@ details of example 2
 
 ```
 
+cucumber のドキュメントでは以下のような例が書いてある。
+
+```
+Feature: Is it Friday yet?
+  Everybody wants to know when it's Friday
+
+  Scenario: Sunday isn't Friday
+    Given today is Sunday
+    When I ask whether it's Friday yet
+    Then I should be told "Nope"
+
+```
+
+
 
 参考:
 
-[Getting Started: The basics of creating living documents using Concordion](https://concordion.org/tutorial/java/markdown/)
-
+- [Getting Started: The basics of creating living documents using Concordion](https://concordion.org/tutorial/java/markdown/)
+- [Write a Scenario | Cucumber 10 minutes tutorial](https://cucumber.io/docs/guides/10-minute-tutorial/#write-a-scenario)
 
 
 ## 参考資料

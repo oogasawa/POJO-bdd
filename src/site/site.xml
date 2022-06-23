@@ -21,6 +21,10 @@
       <item name="UseCases" href="users_manual/UseCases_220521_oo01/doc.html"/>
     </menu>
 
+
+    <menu name="Developper's Guide">
+    </menu>
+
   <menu name="API docs">
       <item name="JavaDoc" href="apidocs/index.html" />
   </menu>

@@ -4,13 +4,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.laddercode</groupId>
+  <groupId>com.github.oogasawa</groupId>
   <artifactId>POJO-bdd</artifactId>
   <version>1.0.0</version>
 
   <name>POJO-bdd</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://github.com/oogasawa/laddercode-bdd_java</url>
+  <url>http://github.com/oogasawa/POJO-bdd</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
