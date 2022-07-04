@@ -1,0 +1,79 @@
+
+body, td, select, input, li{
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  /* font-size: 14px; */
+  font-size: medium;
+}
+
+code{
+  font-family: Courier, monospace;
+  font-size: 14px;
+}
+
+p, tt {
+  line-height: 1.3em;
+  font-size: medium;
+}
+
+pre {
+  line-height: 1.3em;
+  font-size: medium;
+}
+
+
+#lastPublished {
+  font-size: small;
+}
+
+.navSectionHead {
+  font-weight: bold;
+  font-size: small;
+}
+
+#footer {
+  padding: 3px 10px 3px 10px;
+  font-size: small;
+}
+
+#breadcrumbs {
+  font-size: small;
+  margin: 0pt;
+}
+
+p {
+  line-height: 1.3em;
+  font-size: medium; 
+}
+
+
+
+#leftColumn {
+  margin: 10px 0 0 5px;
+  border: 1px solid #999;
+  background-color: #eee;
+  padding-bottom: 3px; /* IE-9 scrollbar-fix */
+  font-size: medium;
+}
+
+
+#navcolumn h5 {
+  margin: 5px;
+  padding: 0;
+  font-size: medium;
+}
+
+#navcolumn ul {
+  margin-top: 2px;
+  padding: 0;
+  font-size: medium;
+}
+#navcolumn li {
+  list-style-type: none;
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: 0 0.4em;
+  padding-left: 16px;
+  list-style-position: outside;
+  line-height: 1.2em;
+  font-size: medium;
+}

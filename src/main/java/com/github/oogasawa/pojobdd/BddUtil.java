@@ -2,6 +2,7 @@ package com.github.oogasawa.pojobdd;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.logging.Logger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -10,26 +11,31 @@ import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.github.oogasawa.pojobdd.util.StringUtil;
+
 public class BddUtil {
 
-    public static boolean assertTrue(PrintStream out, String expectation, String answer) {
+    public static boolean assertTrue(PrintStream out, String expectation, String result) {
 
-        if (expectation.equals(answer)) {
+        if (expectation.equals(result)) {
             out.println("````");
-            out.println(answer);
+            out.println(result);
             out.println("````");
 
             return true;
         }
         else {
             out.println("````");
-            out.println("expectation:");
+            out.println("% result:");
+            out.println(result);
+            out.println("");
+
+            out.println("% expectation:");
             out.println(expectation);
             out.println("");
-            out.println("answer:");
-            out.println(answer);
-            out.println("diff:");
-            out.println(diff(expectation, answer));
+
+            out.println("% diff:");
+            out.println(diff(result, expectation));
             out.println("````");
 
             return false;
@@ -59,21 +65,77 @@ public class BddUtil {
     }
 
 
-    public static String diff(String data1, String data2) {
-        List<String> list1 = Arrays.asList(data1.split("\n"));
-        List<String> list2 = Arrays.asList(data2.split("\n"));
 
-        StringJoiner joiner = new StringJoiner("\n");
+    public static boolean allTrue(Boolean ... data) {
 
-        for (int i=0; i<list1.size(); i++) {
-            if (i < list2.size()) {
-                if (!list1.get(i).equals(list2.get(i))) {
-                    joiner.add(String.format("%d: %s", i, list1.get(i)));
-                }
-            }
+        if (data == null) {
+            return false;
+        }
+        else if (data.length == 0) {
+            return false;
+        }
+        else {
+            return Arrays.stream(data)
+                .allMatch(elem->{ return elem == true; });
         }
 
-        return joiner.toString();
+    }
+
+
+
+
+
+    public static String diff(String data1, String data2) {
+
+        List<String> list1 = StringUtil.splitByNewLine((data1));
+        List<String> list2 = StringUtil.splitByNewLine((data2));
+
+
+        Logger.getGlobal().info(String.format("list1.size() = %d", list1.size()));
+        Logger.getGlobal().info(String.format("list2.size() = %d", list2.size()));
+
+        StringJoiner joiner1 = new StringJoiner("\n");
+        StringJoiner joiner2 = new StringJoiner("\n");
+
+        boolean presenceOfDifference = false;
+        int state = 0;
+        int maxLine = Math.max(list1.size(), list2.size());
+        for (int i=0; i<maxLine; i++) {
+
+            String list1Line = i < list1.size() ? list1.get(i) : "[END]";
+            String list2Line = i < list2.size() ? list2.get(i) : "[END]";
+
+            int newState = list1Line.equals(list2Line) ? 0 : 1;
+
+            if (state == 0 && newState == 0) { // no difference.
+                continue;
+            }
+            else if (state == 0 && newState == 1) { // beginning of difference area.
+                state = 1;
+                presenceOfDifference = true;
+                joiner1.add(String.format("%d: %s", i, list1Line));
+                joiner2.add(String.format("%d: %s", i, list2Line));
+
+            }
+            else if (state == 1 && newState == 0) { // End of difference area.
+                state = 0;
+
+                // add a blank line to the results.
+                joiner1.add("");
+                joiner2.add("");
+            }
+            else if (state == 1 && newState == 1) {
+                joiner1.add(String.format("%d: %s", i, list1Line));
+                joiner2.add(String.format("%d: %s", i, list2Line));
+            }
+
+        }
+
+        String result = "";
+        if (presenceOfDifference) {
+            result = joiner1.toString() + "\n%% -----\n" + joiner2.toString() + "\n";
+        }
+        return result;
     }
 
 
@@ -168,7 +230,6 @@ public class BddUtil {
      *
      */
     public static String readSnippet(String filePath, String methodName) {
-        StringJoiner joiner = new StringJoiner("\n");
 
         // create a file path to the corresponding java file.
         String sourceDir = System.getProperty("pojobdd.sourcedir");
@@ -178,9 +239,12 @@ public class BddUtil {
         Path sourceDirPath = Path.of(sourceDir);
         Path javaFilePath = sourceDirPath.resolve(filePath);
 
-        // open the java file.
+        // Joining with empty characters 
+        // since readAllLines preserve NewLine character of each line.
+        StringJoiner joiner = new StringJoiner(""); 
+        joiner.add("// " + filePath + "\n");
         try {
-            List<String> lines = Files.readAllLines(javaFilePath);
+            List<String> lines = Files.readAllLines(javaFilePath); 
             Pattern startPattern = Pattern.compile("^(\\s+)//\\s+%begin snippet\\s+:\\s+" + methodName);
             Pattern endPattern   = Pattern.compile("^\\s+//\\s+%end snippet\\s+:\\s+" + methodName);
 
@@ -192,16 +256,19 @@ public class BddUtil {
                 if (m1.find()) {
                     flg = 1;
                     indentWidth = indentWidth(m1.group(1), 4);
+                    joiner.add(indent(lines.get(i), -1*indentWidth));
                     continue;
                 }
                 Matcher m2 = endPattern.matcher(lines.get(i));
                 if (m2.find()) {
+                    joiner.add(indent(lines.get(i), -1*indentWidth));
                     flg = 0;
-                    continue;
+                    break;
                 }
 
                 if (flg == 1) {
-                    joiner.add(lines.get(i).indent(-1*indentWidth));
+                    joiner.add(indent(lines.get(i), -1*indentWidth));
+
                 }
 
             }
@@ -210,51 +277,22 @@ public class BddUtil {
             e.printStackTrace();
         }
 
-        return trimLines(joiner.toString()) + "\n";
+
+        return joiner.toString() + "\n";
 
     }
 
 
-    public static String trimLines(String str) {
-
-        StringJoiner joiner = new StringJoiner("\n");
-        StringJoiner joiner2 = new StringJoiner("\n");
-        String[] lines = str.split("\n");
-
-        Pattern emptyLine = Pattern.compile("^\\s*$");
-
-        int state = 0;
-        for (int i=0; i<lines.length; i++) {
-            Matcher m = emptyLine.matcher(lines[i]);
-            if (state == 0 && m.matches()) {
-                continue;
-            }
-            else if (state == 0 && !m.matches()) {
-                state = 1;
-                joiner.add(lines[i]);
-            }
-            else if (state == 1 && !m.matches()) {
-                joiner.add(lines[i]);
-            }
-            else if (state == 1 && m.matches()) {
-                state = 2;
-                joiner2.add(lines[i]);
-            }
-            else if (state == 2 && m.matches()) {
-                joiner2.add(lines[i]);
-            }
-            else if (state == 2 && !m.matches()) {
-                joiner.merge(joiner2);
-                joiner.add(lines[i]);
-                joiner2 = new StringJoiner("\n");
-            }
-
+    public static String indent(String line, int width) {
+        Logger.getGlobal().info(String.format("line.length() = %d, width = %d, line = %s", line.length(), width, line));
+        if (line.length() > Math.abs(width)) {
+            return line.indent(width);
         }
-
-        return joiner.toString();
-
+        else {
+            return "\n";
+        }
     }
-
+    
 
 
 }

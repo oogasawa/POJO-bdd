@@ -1,32 +1,20 @@
 
 
-# introduction
+## POJO-BDD : Introduction 
 
-## POJO-BDD とは
+POJO-BDD is a super simple framework for the Behavior Driven Development (BDD) and executable documentation.
 
-POJO-BDD (Plain Old Java Object based Behavior Driven Development framework)は BDD を実現する
-非常に単純なフレームワークである。
 
-BDD のフレームワークには[cucumber](https://cucumber.io/)や [concordion](https://concordion.org/)などすでにいくつかあるが、
+- No dependence on other libraries.
+    - For example, there is no problem of being forced to use an old library that can only be used with JUnit version 4 series.
+- No special notation or syntax is required when writing specification documents.
+- There are almost no special conventions or restrictions when writing test code; it is simply written as a POJO (Plain Old Java Object).
 
-- 古いライブラリの利用を強制されがちとなり、これが開発の妨げとなる。
-    - 例えば JUnit の version 4 系でしか使えないなど、ライブラリへの依存性から新しいライブラリへの対応が遅れる傾向にある。
-- 仕様ドキュメントを書く際に特殊な記法が必要。
-- テストコードを書く際に特殊な規約や制限がある。
 
-POJO-BDD は以下の特徴を持つ。
+In the usual BDD framework, the BDD specification document is written independently, and when the test is executed, the test result values are inserted into the document to complete the document. In other words, the results of program execution are inserted into the document.
 
-- 特定のライブラリの仕様を強制することはない。そもそも外部のライブラリに依存しない。JUnit すら使わない。
-- 仕様の記法は markdown。
-- テストコードは POJO で書くだけ。なんの制限もない。
 
-通常の BDD のフレームワークでは BDD の仕様ドキュメントは独立に書いておき、テストを実行すると文書にテスト結果の値が挿入され文書が完成する、という流れとなっている。
-つまりドキュメントにプログラムの実行結果が挿入される形態になっている。
-
-POJO-BDD では（少なくとも現時点では） BDD の仕様ドキュメントは、POJO コード中に書く。
-つまりプログラムにドキュメントが挿入されており、プログラムがドキュメントを生成する形になっている。
-これには長所短所があるが、テストが複雑になったときの実行結果のレポートが、単にテンプレートに対する穴埋めでは対応できず、
-状況に応じてレポートの構造自体を変える必要がでてくる場合を想定してこのようにしている。
+In POJO-BDD (at least for now), the BDD specification document is written in the POJO code. In other words, the documentation is inserted into the program, and the program generates the documentation. There are advantages and disadvantages to this, but it is done in anticipation of the case where the report of the execution results when the test becomes complex cannot be handled by simply filling in holes in a template, and the structure of the report itself needs to be changed according to the situation.
 
 
 

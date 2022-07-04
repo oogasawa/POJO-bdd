@@ -6,7 +6,7 @@
 
   <groupId>com.github.oogasawa</groupId>
   <artifactId>POJO-bdd</artifactId>
-  <version>1.2.0</version>
+  <version>1.4.0</version>
 
   <name>POJO-bdd</name>
   <!-- FIXME change it to the project's website -->
@@ -19,13 +19,6 @@
   </properties>
 
   <dependencies>
-
-    <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
-    <!-- <dependency> -->
-    <!--   <groupId>com.vladsch.flexmark</groupId> -->
-    <!--   <artifactId>flexmark-all</artifactId> -->
-    <!--   <version>0.64.0</version> -->
-    <!-- </dependency> -->
 
   </dependencies>
 
@@ -64,8 +57,12 @@
         </plugin>
         <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>3.7</version>
+          <configuration>
+          <locales>en,ja</locales>
+        </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
