@@ -186,7 +186,7 @@ and a series of reports are saved in the directory `src/site/markdown/pojobdd`,
 the reports can be used as part of the maven site by using the `mvn site:site` command.
 
 
-## Creating Test Codes (2) A Practical Example
+## Creating Test Codes (2) Practical Examples
 
 Refer to the following URL for an actual example of test code.
 

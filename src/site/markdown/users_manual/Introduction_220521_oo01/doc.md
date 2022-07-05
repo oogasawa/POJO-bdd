@@ -6,7 +6,7 @@ POJO-BDD is a super simple framework for the Behavior Driven Development (BDD) a
 
 
 - No dependence on other libraries.
-    - For example, there is no problem of being forced to use an old library that can only be used with JUnit version 4 series.
+    - Use of older libraries (e.g. JUnit4 and so on) is not forced because of the dependencies.
 - No special notation or syntax is required when writing specification documents.
 - There are almost no special conventions or restrictions when writing test code; it is simply written as a POJO (Plain Old Java Object).
 
