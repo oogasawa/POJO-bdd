@@ -1,10 +1,16 @@
 
-## インストール方法
+## インストール
+
+現時点では Maven Central Repository には登録していないので、以下のようにしてローカルの環境にインストールする。
+
+```
+git clone https://github.com/oogasawa/POJO-bdd
+mvn compile package
+mvn install
+```
 
 
-
-
-## プロジェクトの雛形の作成
+## POJO-bdd を利用するプロジェクトの作成
 
 Apache Maven の通常の利用手順に従って、以下のようにしてプロジェクトの雛形を作る。
 
@@ -13,7 +19,7 @@ $ mvn archetype:generate -DgroupId=net.example -DartifactId=your-project -Darche
 ```
 
 
-生成される `pom.xml` ファイル中に以下のように `maven-surfire-plugin`が指定される。POJO-bdd は`maven-surefire-plugin`の[POJO test](https://maven.apache.org/surefire/maven-surefire-plugin/examples/pojo-test.html)の機能を使うので、pom.xml で必要な指定はこれだけである。(JUnit などには依存しない)
+補足: POJO-bdd は`maven-surefire-plugin`の[POJO test](https://maven.apache.org/surefire/maven-surefire-plugin/examples/pojo-test.html)の機能を使うので以下を`pom.xml`に記述する必要がある。上記のように`maven-archetype-quickstart`などを使って雛形を生成した場合は最初から`pom.xml`にこの記述が書かれている。
 
 
 ```xml
@@ -24,7 +30,128 @@ $ mvn archetype:generate -DgroupId=net.example -DartifactId=your-project -Darche
 ```
 
 
+
+作成された`pom.xml`に POJO-bdd の依存性を追加する。
+
+```xml
+    <dependency>
+      <groupId>com.github.oogasawa</groupId>
+      <artifactId>POJO-bdd</artifactId>
+      <version>1.4.0</version>
+      <scope>test</scope>
+    </dependency>
+```
+
+
+
+## テストコードの作成 (1) Hello world example
+
+
+`maven-surefire-plugin`の[POJO test](https://maven.apache.org/surefire/maven-surefire-plugin/examples/pojo-test.html)では
+
+> A test class should be named `**/*Test` and should contain `test*` methods which will each be executed by Surefire.
+
+となっている。
+
+例えば`AppTest.java`というファイルを 1 個だけ作り、その中に`testAll`というメソッドを１個だけ作っておけば `maven-surfire-plugin` が`mvn test`時にこれを呼び出す。
+あとは`testAll`メソッドが順次テストコードを呼び出せばよい。
+`assert`により`maven-surefire-plugin`がエラーの有無を検出する。
+
+
+```
+$ tree src/test
+src/test
+|-- java
+|   `-- com
+|       `-- example
+|           `-- pojobdd
+|               `-- StoryTest.java
+`-- resources
+```
+
+
+AppTest.java
+
+```java
+package com.example.pojobdd;
+
+import com.github.oogasawa.pojobdd.BddUtil;
+
+public class StoryTest {
+
+    public void testAll() {
+
+        assert execAcceptanceCriterion01();
+        // assert execAcceptanceCriterion02();
+        // ...
+
+    }
+    
+    public static boolean execAcceptanceCriterion01() {
+    
+        try (PrintStream out = BddUtil.newPrintStream("Hello_spec.md")) {
+
+            // Checks if all the tests are succeeded.
+            List<Boolean> results = new ArrayList<Boolean>();
+            results.add(description());
+            results.add(example01(out));
+            // results.add(example02(out));
+            // ...
+            
+            out.flush();
+            return BddUtil.allTrue(results);
+
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return false;
+    }
+
+    
+    public static boolean description(PrintStream out) {
+        String description = """
+        
+        ## Acceptance Criterion
+        
+        Hello world.
+        
+        """;
+        
+        out.println(description);
+        return true;
+    }
+
+
+    public static boolean example01(PrintStream out) {
+        String description = """
+        
+        ### Example 1
+        
+        detail of example 1
+        
+        """;
+        
+        out.println(description);
+        return true;
+    }
+
+
+    // ...
+
+
+}
+```
+
+
+
+
 ## テストの実行方法
+
+
+### テスト結果の標準出力への出力
 
 Maven を用いてテストを実行するには通常通り`mvn test`を実行する。
 
@@ -33,6 +160,9 @@ mvn test
 ```
 
 これを実行すると、結果のレポートが標準出力に表示される。
+
+
+### テスト結果のファイルへの出力
 
 結果のレポートは一般に長くなるので、指定したディレクトリの中にセーブすると便利である。
 
@@ -47,149 +177,17 @@ mvn test -Dpojobdd.basedir=src/site/markdown/pojobdd
 
 
 
-## BDD 文書およびテストコードの作成
+## テストコードの作成 (2) 実際の例
 
-`maven-surefire-plugin`の[POJO test](https://maven.apache.org/surefire/maven-surefire-plugin/examples/pojo-test.html)では
+テストコードの実例は以下の URL を参照してください。
 
-> A test class should be named `**/*Test` and should contain `test*` methods which will each be executed by Surefire.
-
-となっている。
-
-例えば`AppTest.java`というファイルを 1 個だけ作り、その中に`testAll`というメソッドを１個だけ作っておけば surfire が`mvn test`時にこれを呼び出す。
-
-```
-$ tree src/test
-src/test
-|-- java
-|   `-- net
-|       `-- laddercode
-|           `-- pojobdd
-|               |-- AppTest.java
-|               |-- BddUtilSpec.java
-|               `-- MdToArraySpec.java
-`-- resources
-    `-- testdoc.md
-```
+https://github.com/oogasawa/POJO-bdd/tree/main/src/test/java/com/github/oogasawa/pojobdd
 
 
-AppTest.java
+## 各メソッドの紹介 
 
-```java
-package net.laddercode.pojobdd;
+- Specification by Example
+    - [BddUtil.allTrue](https://github.com/oogasawa/POJO-bdd/blob/main/src/site/markdown/pojobdd/AllTrue_spec.md)
+    - BddUtil.assertTrue
+    - [BddUtil.readSnippet](https://github.com/oogasawa/POJO-bdd/blob/main/src/site/markdown/pojobdd/ReadSnippet_spec.md)
 
-public class AppTest {
-
-    public void testAll() {
-
-        assert BddUtilSpec.exec();
-        assert MdToArraySpec.exec();
-    }
-
-}
-```
-
-あとは`testAll`メソッドが順次テストコードを呼び出せばよいだけである。
-
-`assert`により`surefire`プラグインがエラーの有無を検出する。
-
-
-
-それぞれの Feature (=Story)について以下のようなクラスを書く。
-
-このクラスは、以下のメソッドからなる。
-
-1. Example を順次呼び出すメソッド`exec`
-    - このメソッドの中で出力するファイル名を決める。
-2. 個々の example を実行するメソッド`*Spec` (surfire  POJO Test に直接実行されないよう名前に注意。)
-    - markdown に出力する説明(description)を
-    - 
-
-
-```java
-
-public class BddUtilSpec {
-
-
-    public static boolean exec() {
-        // PrintStream out = new PrintStream(System.out);
-        try (PrintStream out = BddUtil.newPrintStream("BddUtil_spec.md")) {
-            // Checks if all the tests are succeeded.
-            List<Boolean> results = new ArrayList<Boolean>();
-            results.add(allTrueSpec01(out));
-            results.add(allTrueSpec02(out));
-            // results.add(convertRecursivelySpec(out));
-
-            out.flush();
-            return BddUtil.allTrue(results);
-
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public static boolean allTrueSpec01(PrintStream out) {
-
-        // Description
-        String[] description = {
-            "",
-            "## `allTrue(List<Boolean>)`",
-            "",
-            "- Given a Boolean list",
-            "- When the size of the list >= 1",
-            "- Then returns true if all the elements of given array are true, otherwise false",
-            "",
-            };
-
-        Arrays.stream(description)
-            .forEach(out::println);
-
-        // Reality
-        ArrayList<ArrayList<Boolean>> examples = new ArrayList<>();
-        ArrayList<Boolean> row1 = new ArrayList<>();
-        row1.add(true);
-        examples.add(row1);
-        ArrayList<Boolean> row2 = new ArrayList<>();
-        row2.add(true);
-        row2.add(true);
-        examples.add(row2);
-        ArrayList<Boolean> row3 = new ArrayList<>();
-        row3.add(true);
-        row3.add(false);
-        examples.add(row3);
-
-
-        StringJoiner answers = new StringJoiner("\n");
-        for (int i=0; i<examples.size(); i++) {
-            ArrayList<Boolean> row = examples.get(i);
-            answers.add(String.format("%s => %s",
-                                      row.toString(),
-                                      BddUtil.allTrue(examples.get(i))));
-        }
-        String answer = answers.toString();
-
-
-        // Expectations
-        String[] expectations = {
-            "[true] => true",
-            "[true, true] => true",
-            "[true, false] => false",
-        };
-        String expectation = String.join("\n",expectations);
-
-
-
-        // Check the answer.
-        boolean result = BddUtil.assertTrue(out, expectation, answer);
-        assert result;
-        return result;
-
-
-        //return true;
-    }
-
-... (以下略)
-```
