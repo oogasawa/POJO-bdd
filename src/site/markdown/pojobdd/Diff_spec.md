@@ -122,3 +122,41 @@ This methid returns following string that represents the difference detected in 
 8: 
 
 ````
+
+### Scenario 04 : Handling of null strings
+
+null is treated as an empty string.
+
+Code:
+
+```
+// src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java
+// %begin snippet : diffNullStringSpec01
+StringJoiner result = new StringJoiner("\n\n");
+result.add(BddUtil.diff(null, "Hello"));
+result.add(BddUtil.diff("What's up", null));
+result.add(BddUtil.diff(null, null));
+
+// %end snippet : diffNullStringSpec01
+
+
+```
+
+Result:
+
+This methid returns following string that represents the difference detected in the strings.
+
+
+````
+0: 
+%% -----
+0: Hello
+
+
+0: What's up
+%% -----
+0: 
+
+
+
+````

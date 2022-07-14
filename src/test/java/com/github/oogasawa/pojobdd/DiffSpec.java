@@ -24,6 +24,8 @@ public class DiffSpec {
             results.add(diffSpec02(out));
             results.add(diffSpec03(out));
 
+            results.add(diffNullStringSpec01(out));
+
             out.flush();
             return BddUtil.allTrue(results);
 
@@ -233,6 +235,71 @@ public class DiffSpec {
 
         // Check the answer.
         boolean isPassed = BddUtil.assertTrue(out, expectation, result);
+        assert isPassed;
+        return isPassed;
+
+
+        //return true;
+    }
+
+
+
+    public static boolean diffNullStringSpec01(PrintStream out) {
+
+
+        String description = """
+
+            ### Scenario 04 : Handling of null strings
+
+            null is treated as an empty string.
+
+            Code:
+
+            ```
+            {{snippet}}
+            ```
+
+            Result:
+
+            This methid returns following string that represents the difference detected in the strings.
+
+            """;
+
+
+        // Reality
+        // %begin snippet : diffNullStringSpec01
+        StringJoiner result = new StringJoiner("\n\n");
+        result.add(BddUtil.diff(null, "Hello"));
+        result.add(BddUtil.diff("What's up", null));
+        result.add(BddUtil.diff(null, null));
+        
+        // %end snippet : diffNullStringSpec01
+
+
+        String snippet = BddUtil.readSnippet(
+                            "src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java",
+                            "diffNullStringSpec01");
+        description = description.replace("{{snippet}}", snippet);
+        out.println(description);
+
+        // Expectations
+        String[] expectations = {
+          "0: ",
+          "%% -----",
+          "0: Hello",
+          "",
+          "",
+          "0: What's up",
+          "%% -----",
+          "0: ",
+          "",
+          "",
+        };
+
+        String expectation = ArrayUtil.join(expectations, "\n") + "\n";
+
+        // Check the answer.
+        boolean isPassed = BddUtil.assertTrue(out, expectation, result.toString());
         assert isPassed;
         return isPassed;
 

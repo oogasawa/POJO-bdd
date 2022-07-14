@@ -87,6 +87,14 @@ public class BddUtil {
 
     public static String diff(String data1, String data2) {
 
+        if (data1 == null) {
+            data1 = "";
+        }
+        if (data2 == null) {
+            data2 = "";
+        }
+
+        
         List<String> list1 = StringUtil.splitByNewLine((data1));
         List<String> list2 = StringUtil.splitByNewLine((data2));
 

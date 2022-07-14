@@ -3,9 +3,9 @@
 
 ### Scenario 01: a non-empty boolean list
 
-- Given a Boolean list
+- Given a `Boolean` list
 - When the size of the list >= 1
-- Then returns true if all the elements of given array are true, otherwise false.
+- Then returns true if all the elements of given list are true, otherwise false.
 
 Code:
 
