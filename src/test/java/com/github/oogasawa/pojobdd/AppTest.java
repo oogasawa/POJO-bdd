@@ -15,7 +15,7 @@ public class AppTest {
         assert DiffSpec.exec();
         assert AllTrueSpec.exec();
         assert ReadSnippetSpec.exec();
-
+        assert YamlHeaderSpec.exec();
 
     }
 

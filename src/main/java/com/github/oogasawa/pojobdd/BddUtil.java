@@ -5,8 +5,11 @@ import java.io.PrintStream;
 import java.util.logging.Logger;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -148,6 +151,54 @@ public class BddUtil {
 
 
 
+
+    
+    /** Generates a document ID for markdown YAML header.
+     *
+     * @param prefix A prefix string. 
+     * @return A document ID, such as "PREFIX_220108_8c5f"
+     * 
+     */
+    public static String documentId(String prefix) {
+        StringJoiner joiner = new StringJoiner("_");
+        joiner.add(prefix);
+        joiner.add(today());
+        joiner.add(randomStr());
+
+        return joiner.toString();
+    }
+
+
+    /** Generates the date part of document ID, based on the today's date.
+     *
+     * @return A string like the following: '20111203'
+     */
+    public static String today() {
+        LocalDate date = LocalDate.now();
+
+        // BASIC_ISO_DATE is as follows "20111203"
+        String text = date.format(DateTimeFormatter.BASIC_ISO_DATE);
+
+        // Remove the first 2 digits.
+        return text.substring(2, text.length());
+    }
+
+    
+    
+
+    public static String indent(String line, int width) {
+        Logger.getGlobal().info(String.format("line.length() = %d, width = %d, line = %s", line.length(), width, line));
+        if (line.length() > Math.abs(width)) {
+            return line.indent(width);
+        }
+        else {
+            return "\n";
+        }
+    }
+
+
+    
+
     public static int indentWidth(String headerSpaces, int tabWidth) {
 
         int width = 0;
@@ -221,6 +272,20 @@ public class BddUtil {
     }
 
 
+    /** Generates the random part of document ID.
+     *
+     * @return A string like the following: "9c925"
+     */
+    public static String randomStr() {
+        //TODO Initializing the random number generator object
+        // each time the method is called
+        // is not an accurate way to generate random numbers.
+        Random random = new Random(); 
+        return Integer.toHexString(random.nextInt(1000000));
+    }
+
+
+    
 
     /**
      * Returns an example of codes that is surrounded by special comments.
@@ -239,7 +304,7 @@ public class BddUtil {
      */
     public static String readSnippet(String filePath, String methodName) {
 
-        // create a file path to the corresponding java file.
+        // Create a file path to the corresponding java file.
         String sourceDir = System.getProperty("pojobdd.sourcedir");
         if (sourceDir == null) {
             sourceDir = System.getenv("PWD");
@@ -291,16 +356,18 @@ public class BddUtil {
     }
 
 
-    public static String indent(String line, int width) {
-        Logger.getGlobal().info(String.format("line.length() = %d, width = %d, line = %s", line.length(), width, line));
-        if (line.length() > Math.abs(width)) {
-            return line.indent(width);
-        }
-        else {
-            return "\n";
-        }
-    }
     
+    public static String yamlHeader(String docId, String title) {
+        StringJoiner joiner = new StringJoiner("\n");
+        joiner.add("---");
+        joiner.add("id: " + docId);
+        if (title != null) { 
+            joiner.add("title: " + title);
+        }
+        joiner.add("---");
+
+        return joiner.toString();
+    }
 
 
 }
