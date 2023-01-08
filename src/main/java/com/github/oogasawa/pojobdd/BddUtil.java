@@ -243,7 +243,7 @@ public class BddUtil {
      * @param filePath a relative path string under {@code pojobdd.basedir}.
      * @return A {@code PrintStream} object that represent stdout or a specified file.
      */
-    public static PrintStream newPrintStream(String filePath) throws IOException {
+    public static PrintStream newPrintStream(Path mdPath) throws IOException {
 
         String basedir = System.getProperty("pojobdd.basedir");
 
@@ -251,9 +251,9 @@ public class BddUtil {
             return System.out;
         }
         else {
-            Path pathObj = Path.of(filePath);
-            Path filename = pathObj.getFileName();
-            Path parent   = pathObj.getParent();
+            
+            Path filename = mdPath.getFileName();
+            Path parent   = mdPath.getParent();
             Path basePath = Path.of(basedir);
 
             Path resolvedPath = null;
@@ -285,7 +285,10 @@ public class BddUtil {
     }
 
 
-    
+    @Deprecated
+    public static PrintStream newPrintStream(String mdPathStr) throws IOException {
+        return newPrintStream(Path.of(mdPathStr));
+    }
 
     /**
      * Returns an example of codes that is surrounded by special comments.
@@ -302,7 +305,7 @@ public class BddUtil {
      * }</pre>
      *
      */
-    public static String readSnippet(String filePath, String methodName) {
+    public static String readSnippet(Path javaFilePath, String methodName) {
 
         // Create a file path to the corresponding java file.
         String sourceDir = System.getProperty("pojobdd.sourcedir");
@@ -310,14 +313,14 @@ public class BddUtil {
             sourceDir = System.getenv("PWD");
         }
         Path sourceDirPath = Path.of(sourceDir);
-        Path javaFilePath = sourceDirPath.resolve(filePath);
+        Path javaFileFullPath = sourceDirPath.resolve(javaFilePath);
 
         // Joining with empty characters 
         // since readAllLines preserve NewLine character of each line.
         StringJoiner joiner = new StringJoiner(""); 
-        joiner.add("// " + filePath + "\n");
+        joiner.add("// " + javaFilePath.toString() + "\n");
         try {
-            List<String> lines = Files.readAllLines(javaFilePath); 
+            List<String> lines = Files.readAllLines(javaFileFullPath); 
             Pattern startPattern = Pattern.compile("^(\\s+)//\\s+%begin snippet\\s+:\\s+" + methodName);
             Pattern endPattern   = Pattern.compile("^\\s+//\\s+%end snippet\\s+:\\s+" + methodName);
 
@@ -356,6 +359,10 @@ public class BddUtil {
     }
 
 
+    @Deprecated
+    public static String readSnippet(String javaFilePathStr, String methodName) {
+        return readSnippet(Path.of(javaFilePathStr), methodName);
+    }
     
     public static String yamlHeader(String docId, String title) {
         StringJoiner joiner = new StringJoiner("\n");
