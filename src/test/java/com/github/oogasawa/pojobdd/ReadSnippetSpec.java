@@ -3,18 +3,22 @@ package com.github.oogasawa.pojobdd;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
 
 public class ReadSnippetSpec {
 
     public static boolean exec() {
-        // PrintStream out = new PrintStream(System.out);
-        try (PrintStream out = BddUtil.newPrintStream("ReadSnippet_spec.md")) {
+        
+        String docId = BddUtil.documentId("ReadSnippetSpec");
+        Path mdPath = Path.of(docId, docId + ".md");
+
+        try (PrintStream out = BddUtil.newPrintStream(mdPath)) {
             // Checks if all the tests are succeeded.
             List<Boolean> results = new ArrayList<Boolean>();
+
+            out.println(BddUtil.yamlHeader(docId, "ReadSnippet"));
             results.add(readSnippetSpec(out));
 
             out.flush();

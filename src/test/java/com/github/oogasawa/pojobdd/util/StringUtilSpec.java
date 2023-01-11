@@ -16,11 +16,16 @@ import com.github.oogasawa.pojobdd.BddUtil;
 public class StringUtilSpec {
 
     public static boolean exec() {
+
+        String docId = BddUtil.documentId("StringUtilSpec");
+        Path mdPath = Path.of("util", docId, docId + ".md");
+
         // PrintStream out = new PrintStream(System.out);
-        try (PrintStream out = BddUtil.newPrintStream("util/StringUtil.md")) {
+        try (PrintStream out = BddUtil.newPrintStream(mdPath)) {
             // Checks if all the tests are succeeded.
             List<Boolean> results = new ArrayList<Boolean>();
 
+            out.println(BddUtil.yamlHeader(docId, "StringUtil"));
             results.add(splitByNewLineSpec01(out));
             results.add(stringSplitSpec01(out));
             results.add(hereDocSpec(out));

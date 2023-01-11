@@ -2,6 +2,7 @@ package com.github.oogasawa.pojobdd;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -10,9 +11,14 @@ public class YamlHeaderSpec {
 
     public static boolean exec() {
 
-        try (PrintStream out = BddUtil.newPrintStream("YamlHeaderSpec.md")) {
+        String docId = BddUtil.documentId("YamlHeaderSpec");
+        Path mdPath = Path.of(docId, docId + ".md");
+        
+        try (PrintStream out = BddUtil.newPrintStream(mdPath)) {
             // Checks if all the tests are succeeded.
             List<Boolean> results = new ArrayList<Boolean>();
+
+            out.println(BddUtil.yamlHeader(docId, "yamlHeader"));
             results.add(storyDesc(out));
             results.add(basicExample01(out));
 
@@ -85,7 +91,7 @@ public class YamlHeaderSpec {
         joiner.add("---");
         joiner.add("id: " + docId);
         joiner.add("title: " + "YAML header example");
-        joiner.add("---");
+        joiner.add("---\n\n");
         String expectation = joiner.toString();
 
         // Check the answer.

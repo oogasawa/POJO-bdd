@@ -3,6 +3,7 @@ package com.github.oogasawa.pojobdd;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -13,10 +14,15 @@ public class AllTrueSpec {
 
 
     public static boolean exec() {
-        // PrintStream out = new PrintStream(System.out);
-        try (PrintStream out = BddUtil.newPrintStream("AllTrue_spec.md")) {
+
+        String docId = BddUtil.documentId("AllTrueSpec");
+        Path mdPath = Path.of(docId, docId + ".md");
+        
+        try (PrintStream out = BddUtil.newPrintStream(mdPath)) {
             // Checks if all the tests are succeeded.
             List<Boolean> results = new ArrayList<Boolean>();
+
+            out.println(BddUtil.yamlHeader(docId, "AllTrue"));
             results.add(allTrueSpec01(out));
             results.add(allTrueSpec02(out));
 
@@ -86,7 +92,7 @@ public class AllTrueSpec {
 
 
         String snippet = BddUtil.readSnippet(
-                            "src/test/java/com/github/oogasawa/pojobdd/AllTrueSpec.java",
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/AllTrueSpec.java"),
                             "allTrueSpec01");
         description = description.replace("{{snippet}}", snippet);
         out.println(description);

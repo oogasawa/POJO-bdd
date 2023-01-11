@@ -371,7 +371,7 @@ public class BddUtil {
         if (title != null) { 
             joiner.add("title: " + title);
         }
-        joiner.add("---");
+        joiner.add("---\n\n");
 
         return joiner.toString();
     }
