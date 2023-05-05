@@ -92,7 +92,9 @@ public class ReadSnippetSpec {
         // Reality
         // %begin snippet : readSnippetSpec
 
-        String result = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/ReadSnippetSpec.java", "readSnippetSpec");
+        String result = BddUtil.readSnippet(
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/ReadSnippetSpec.java"),
+                            "readSnippetSpec");
 
         // %end snippet : readSnippetSpec
 
@@ -105,7 +107,9 @@ public class ReadSnippetSpec {
             // src/test/java/com/github/oogasawa/pojobdd/ReadSnippetSpec.java
             // %begin snippet : readSnippetSpec
 
-            String result = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/ReadSnippetSpec.java", "readSnippetSpec");
+            String result = BddUtil.readSnippet(
+                                Path.of("src/test/java/com/github/oogasawa/pojobdd/ReadSnippetSpec.java"),
+                                "readSnippetSpec");
 
             // %end snippet : readSnippetSpec
 

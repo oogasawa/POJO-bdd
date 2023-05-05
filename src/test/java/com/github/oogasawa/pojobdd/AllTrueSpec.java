@@ -167,7 +167,7 @@ public class AllTrueSpec {
 
 
         String snippet = BddUtil.readSnippet(
-                            "src/test/java/com/github/oogasawa/pojobdd/AllTrueSpec.java",
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/AllTrueSpec.java"),
                             "allTrueSpec02");
         description = description.replace("{{snippet}}", snippet);
         out.println(description);

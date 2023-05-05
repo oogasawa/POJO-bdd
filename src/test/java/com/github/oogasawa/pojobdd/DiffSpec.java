@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
-import java.util.logging.Logger;
 
 import com.github.oogasawa.pojobdd.util.ArrayUtil;
 
@@ -94,7 +93,9 @@ public class DiffSpec {
         // %end snippet : diffSpec01
 
 
-        String snippet = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java", "diffSpec01");
+        String snippet = BddUtil.readSnippet(
+                                Path.of("src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java"),
+                                "diffSpec01");
         description = description.replace("{{snippet}}", snippet);
         out.println(description);
 
@@ -144,7 +145,9 @@ public class DiffSpec {
 
         //System.out.println(answer);
 
-        String snippet = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java", "diffSpec02");
+        String snippet = BddUtil.readSnippet(
+                                Path.of("src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java"),
+                                "diffSpec02");
         description = description.replace("{{snippet}}", snippet);
         out.println(description);
 
@@ -167,8 +170,6 @@ public class DiffSpec {
 
 
     public static boolean diffSpec03(PrintStream out) {
-
-        Logger.getGlobal().info("enter the method.");
 
         String description = """
 
@@ -216,7 +217,9 @@ public class DiffSpec {
 
         //System.out.println(answer);
 
-        String snippet = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java", "diffSpec03");
+        String snippet = BddUtil.readSnippet(
+                                Path.of("src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java"),
+                                "diffSpec03");
         description = description.replace("{{snippet}}", snippet);
         out.println(description);
 
@@ -285,7 +288,7 @@ public class DiffSpec {
 
 
         String snippet = BddUtil.readSnippet(
-                            "src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java",
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/DiffSpec.java"),
                             "diffNullStringSpec01");
         description = description.replace("{{snippet}}", snippet);
         out.println(description);

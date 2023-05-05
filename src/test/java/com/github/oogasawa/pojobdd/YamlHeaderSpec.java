@@ -82,7 +82,9 @@ public class YamlHeaderSpec {
         // %end snippet : basicExample01
 
 
-        String snippet = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/YamlHeaderSpec.java", "basicExample01");
+        String snippet = BddUtil.readSnippet(
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/YamlHeaderSpec.java"),
+                            "basicExample01");
         description = description.replace("{{snippet}}", snippet);
         out.println(description);
 

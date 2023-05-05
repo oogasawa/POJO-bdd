@@ -20,7 +20,6 @@ public class BddUtil {
 
     private static final Logger logger = Logger.getLogger("com.github.oogasawa.pojobdd");
 
-    
     public static boolean assertTrue(PrintStream out, String expectation, String result) {
 
         if (expectation.equals(result)) {
@@ -105,8 +104,8 @@ public class BddUtil {
         List<String> list2 = StringUtil.splitByNewLine((data2));
 
 
-        logger.info(String.format("list1.size() = %d", list1.size()));
-        logger.info(String.format("list2.size() = %d", list2.size()));
+        logger.fine(String.format("list1.size() = %d", list1.size()));
+        logger.fine(String.format("list2.size() = %d", list2.size()));
 
         StringJoiner joiner1 = new StringJoiner("\n");
         StringJoiner joiner2 = new StringJoiner("\n");
@@ -190,7 +189,7 @@ public class BddUtil {
     
 
     public static String indent(String line, int width) {
-        logger.info(String.format("line.length() = %d, width = %d, line = %s", line.length(), width, line));
+        logger.fine(String.format("line.length() = %d, width = %d, line = %s", line.length(), width, line));
         if (line.length() > Math.abs(width)) {
             return line.indent(width);
         }
@@ -288,11 +287,6 @@ public class BddUtil {
     }
 
 
-    @Deprecated
-    public static PrintStream newPrintStream(String mdPathStr) throws IOException {
-        return newPrintStream(Path.of(mdPathStr));
-    }
-
     /**
      * Returns an example of codes that is surrounded by special comments.
      *
@@ -361,11 +355,6 @@ public class BddUtil {
 
     }
 
-
-    @Deprecated
-    public static String readSnippet(String javaFilePathStr, String methodName) {
-        return readSnippet(Path.of(javaFilePathStr), methodName);
-    }
     
     public static String yamlHeader(String docId, String title) {
         StringJoiner joiner = new StringJoiner("\n");

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
-import java.util.logging.Logger;
 
 import com.github.oogasawa.pojobdd.BddUtil;
 
@@ -100,7 +99,7 @@ public class StringUtilSpec {
         // %end snippet : splitByNewLineSpec01
 
         String snippet = BddUtil.readSnippet(
-                            "src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java",
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java"),
                             "splitByNewLineSpec01");
 
         description = description.replace("{{snippet}}", snippet);
@@ -187,7 +186,7 @@ public class StringUtilSpec {
         // %end snippet : stringSplitSpec01
 
         String snippet = BddUtil.readSnippet(
-                            "src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java",
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java"),
                             "stringSplitSpec01");
 
         description = description.replace("{{snippet}}", snippet);
@@ -276,7 +275,7 @@ public class StringUtilSpec {
         // %end snippet : hereDocSpec
 
         String snippet = BddUtil.readSnippet(
-                            "src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java",
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java"),
                             "hereDocSpec");
         description = description.replace("{{snippet}}", snippet);
         out.println(description);
@@ -358,7 +357,7 @@ public class StringUtilSpec {
         // %end snippet : arraysAsListSpec01
 
         String snippet = BddUtil.readSnippet(
-                            "src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java",
+                            Path.of("src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java"),
                             "arraysAsListSpec01");
 
         description = description.replace("{{snippet}}", snippet);
@@ -432,8 +431,9 @@ public class StringUtilSpec {
             result = joiner.toString() + "\n";
             // %end snippet : filesReadAllLinesSpec01
 
-            String snippet = BddUtil.readSnippet("src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java",
-                    "filesReadAllLinesSpec01");
+            String snippet = BddUtil.readSnippet(
+                                    Path.of("src/test/java/com/github/oogasawa/pojobdd/util/StringUtilSpec.java"),
+                                    "filesReadAllLinesSpec01");
 
             description = description.replace("{{snippet}}", snippet);
             out.println(description);
