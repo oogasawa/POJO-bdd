@@ -18,6 +18,9 @@ import com.github.oogasawa.pojobdd.util.StringUtil;
 
 public class BddUtil {
 
+    private static final Logger logger = Logger.getLogger("com.github.oogasawa.pojobdd");
+
+    
     public static boolean assertTrue(PrintStream out, String expectation, String result) {
 
         if (expectation.equals(result)) {
@@ -102,8 +105,8 @@ public class BddUtil {
         List<String> list2 = StringUtil.splitByNewLine((data2));
 
 
-        Logger.getGlobal().info(String.format("list1.size() = %d", list1.size()));
-        Logger.getGlobal().info(String.format("list2.size() = %d", list2.size()));
+        logger.info(String.format("list1.size() = %d", list1.size()));
+        logger.info(String.format("list2.size() = %d", list2.size()));
 
         StringJoiner joiner1 = new StringJoiner("\n");
         StringJoiner joiner2 = new StringJoiner("\n");
@@ -187,7 +190,7 @@ public class BddUtil {
     
 
     public static String indent(String line, int width) {
-        Logger.getGlobal().info(String.format("line.length() = %d, width = %d, line = %s", line.length(), width, line));
+        logger.info(String.format("line.length() = %d, width = %d, line = %s", line.length(), width, line));
         if (line.length() > Math.abs(width)) {
             return line.indent(width);
         }
